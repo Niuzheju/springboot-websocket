@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.min.js"></script>
+</head>
+<body>
+    <div id="vue_det">
+        <h1>site: {{site}}</h1>
+        <h1>url: {{url}}</h1>
+        <h1>{{details()}}</h1>
+    </div>
+
+    <script type="text/javascript">
+        var data = {
+            site:"菜鸟",
+            url:"http://www.runoob.com/vue2/vue-start.html",
+            alexa:"10000"
+        };
+
+        var vm = new Vue({
+            el:'#vue_det',
+            data:data,
+            methods: {
+                details: function () {
+                    return this.site + "教程";
+                }
+
+            }
+        });
+        //对象属性的更改会相互影响
+        vm.site = "大牛";
+        data.site = "IDEA";
+        document.write(vm.site === data.site);
+        document.write("<br>");
+        document.write(vm.$data === data );
+        document.write("<br>");
+        document.write(vm.$el === document.getElementById("vue_det") );
+
+    </script>
+</body>
+</html>

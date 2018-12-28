@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.min.js"></script>
+    <style type="text/css">
+        .color{
+            background: #444;
+            color: #eee;
+        }
+    </style>
+</head>
+<body>
+<!--helloworld-->
+    <div id="app">
+        <p>{{ message }}</p><!--绑定普通文本-->
+        <div v-html="hMessage"></div><!--绑定html内容-->
+    </div>
+
+    <div id="app2">
+        <label for="r1">修改颜色</label>
+       <!-- 把r1的值绑定到class1上-->
+        <input type="checkbox" v-model="class1" id="r1"/>
+        <br>
+        <!--class1为true时class属性为color,否则没有class-->
+        <div v-bind:class="{'color':class1}">v-bind:class指令</div>
+    </div>
+</body>
+
+<script type="text/javascript">
+    new Vue({
+        el:'#app',
+        data:{
+            message:"hello world",
+            hMessage:"<h1>v-html</h1>"
+        }
+    });
+
+    new Vue({
+        el:'#app2',
+        data:{
+            class1:false
+        }
+    });
+</script>
+</html>
