@@ -1,10 +1,13 @@
 package com.niuzj.springbootwebsocket.websocket;
 
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 @ServerEndpoint("/websocket")
@@ -33,7 +36,7 @@ public class WebsocketTest {
     }
 
     @OnMessage
-    public void onMessage(String message, Session session){
+    public void onMessage(String message){
         System.out.println("来自客户端的消息," + message);
         for (WebsocketTest websocketTest : websocketSet) {
             websocketTest.sendMessage(message);
@@ -41,7 +44,7 @@ public class WebsocketTest {
     }
 
     @OnError
-    public void onError(Session session, Throwable throwable){
+    public void onError(Throwable throwable){
         System.out.println("发生错误");
         throwable.printStackTrace();
     }

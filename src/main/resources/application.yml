@@ -1,0 +1,23 @@
+mapper:
+  mappers: tk.mybatis.mapper.common.Mapper
+  notEmpty: true
+spring:
+  ## 数据源配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/im?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&useSSL=true&&serverTimezone=GMT
+    username: root
+    password: root
+mybatis:
+  configLocation: classpath:mybatis/configuration.xml
+  mapperLocations: classpath:mybatis/mapper/*-mapper.xml
+server:
+  port: 9999
+logging:
+  level:
+    org:
+      springframework: WARN
+    com:
+      niuzj:
+        springbootwebsocket:
+          dao: DEBUG
