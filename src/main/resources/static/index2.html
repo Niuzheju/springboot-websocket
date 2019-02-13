@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script type="text/javascript">
+
+        var ws = new WebSocket("ws://localhost:9999/fileUpload");
+        ws.onopen = function () {
+
+        };
+        ws.onmessage = function (ev) {
+
+        };
+
+        ws.onclose = function () {
+            ws = null;
+        };
+
+        function upload() {
+            var ele = document.getElementById("file");
+            var file = ele.files[0];
+            var fileReader = new FileReader();
+            fileReader.readAsArrayBuffer(file);
+            fileReader.onload = function (ev) {
+                var result = ev.target.result;
+                ws.send(result);
+                ws.send("hello");
+            }
+
+        }
+
+
+    </script>
+</head>
+<body>
+<input type="file" id="file"/>
+<button onclick="upload();">上传</button>
+
+</body>
+</html>

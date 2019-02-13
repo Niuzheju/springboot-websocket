@@ -1,13 +1,11 @@
 package com.niuzj.springbootwebsocket.websocket;
 
-import com.alibaba.fastjson.JSONObject;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
+import java.util.Arrays;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 @ServerEndpoint("/websocket")
@@ -29,31 +27,48 @@ public class WebsocketTest {
     }
 
     @OnClose
-    public void onClose(){
+    public void onClose() {
         websocketSet.remove(this);
         delOnlineCount();
         System.out.println("有连接关闭, 当前现在人数为" + getOnlineCount());
     }
 
     @OnMessage
-    public void onMessage(String message){
-        System.out.println("来自客户端的消息," + message);
-        for (WebsocketTest websocketTest : websocketSet) {
-            websocketTest.sendMessage(message);
-        }
+    public void onText(String text) {
+        System.out.println(text);
+        sendText(text);
+    }
+
+    @OnMessage
+    public void onFile(byte[] file) {
+        System.out.println(Arrays.toString(file));
+        sendFile(file);
     }
 
     @OnError
-    public void onError(Throwable throwable){
+    public void onError(Throwable throwable) {
         System.out.println("发生错误");
         throwable.printStackTrace();
     }
 
-    private void sendMessage(String message){
-        try {
-            this.session.getBasicRemote().sendText(message);
-        } catch (IOException e) {
-            e.printStackTrace();
+    private void sendText(String message) {
+        for (WebsocketTest websocketTest : websocketSet) {
+            try {
+                websocketTest.session.getBasicRemote().sendText(message);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    private void sendFile(byte[] file) {
+        for (WebsocketTest websocketTest : websocketSet) {
+            try {
+                websocketTest.session.getBasicRemote().sendObject(file);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -61,7 +76,7 @@ public class WebsocketTest {
         onlineCount++;
     }
 
-    private synchronized void delOnlineCount(){
+    private synchronized void delOnlineCount() {
         onlineCount--;
     }
 
